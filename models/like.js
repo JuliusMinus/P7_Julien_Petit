@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Like = sequelize.define('Like', {
-    messageId: {
+    PostId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Message',
+        model: 'Post',
         key: 'id'
       }
     },
@@ -20,15 +20,15 @@ module.exports = (sequelize, DataTypes) => {
   Like.associate = function(models) {
     // associations can be defined here
 
-    models.User.belongsToMany(models.Message, {
+    models.User.belongsToMany(models.Post, {
       through: models.Like,
       foreignKey: 'userId',
-      otherKey: 'messageId',
+      otherKey: 'postId',
     });
 
-    models.Message.belongsToMany(models.User, {
+    models.Post.belongsToMany(models.User, {
       through: models.Like,
-      foreignKey: 'messageId',
+      foreignKey: 'postId',
       otherKey: 'userId',
     });
 
@@ -37,9 +37,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'user',
     });
 
-    models.Like.belongsTo(models.Message, {
-      foreignKey: 'messageId',
-      as: 'message',
+    models.Like.belongsTo(models.Post, {
+      foreignKey: 'postId',
+      as: 'post',
     });
   };
   return Like;
